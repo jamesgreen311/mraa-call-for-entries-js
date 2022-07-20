@@ -44,7 +44,7 @@
                     <span class="bold">Call For Entries </span>
                     <span class="light">New Exhibit</span><br />
                     <span id="exhibit-title" class="bold bright">
-                        {Annual Show at Crossroads}</span
+                        Loading...</span
                     >
                 </div>
             </div>
@@ -79,7 +79,7 @@
                         </div>
                     </div> -->
                     <div class="row g-3 mt-2">
-                        <div class="col-auto">
+                        <div class="col-auto col-form-label">
                           <label for="artistEmail">Email Address</label>
                           <!-- <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com"> -->
                         </div>
@@ -91,7 +91,7 @@
                           <button type="submit" class="btn btn-primary mb-3">Login</button>
                         </div>
                     </div>
-                    <div id="artist-detail" class="mb-2">
+                    <div id="artist-detail" class="mb-2 d-none">
                         <table class="table table-borderless">
                             <tr>
                                 <td class="label">Name</td>
@@ -183,7 +183,7 @@
                     <div class="mb-3">
                         <label for="formFile" class="form-label"
                             >You can submit up to
-                            <span id="max-images">{4}</span> images</label
+                            <span id="max-images" class="text-muted">[loading...]</span> images</label
                         >
                         <input class="form-control" type="file" id="formFile" />
 
@@ -248,21 +248,28 @@
                                 />
                             </div>
                         </div>
-                        <div class="row mb-3 mt-2">
+                        <div class="row mb-3">
                             <label
                                 for="priceOfWork"
-                                class="col-md-1 col-form-label"
+                                class="col-md-1 col-form-label mt-2"
                             >
                                 Price $
                             </label>
 
-                            <div class="col-md-2">
+                            <div class="col-md-2 mt-2">
                                 <input
                                     type="text"
                                     name="priceOfWork"
                                     id="priceOfWork"
                                     class="form-control"
                                 />
+                            </div>
+                            <div class="col-auto mt-2">
+                                <button type="submit" class="btn btn-primary">Submit Work</button>
+                            </div>
+                            <div class="col-auto col-form-label mt-2">
+                                <span class="label">Total Fee: </span>
+                                <span id="totalFee" class="text-muted">Calculating ...</span>
                             </div>
                         </div>
                     </div>
