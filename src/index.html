@@ -56,29 +56,39 @@
                         </span>
                         <span class="text">Artist Login</span>
                     </div>
-                    <div class="mb-3">
-                        <label for="artistEmail" class="form-label"
-                            >Email Address</label
-                        >
-                        <div>
+<!--                     <div class="row g-3">
+                        <div class="col-auto">
+                            <label for="artistEmail" 
+                                >Email Address</label
+                            >
+                        </div>
+                        <div class="col-auto">
                             <input
                                 type="email"
                                 class="form-control"
                                 name="artistEmail"
                                 id="artistEmail"
-                                style="display: inline-block; width: 90%"
                             />
-                            <!--                             <button
-                                type="button"
-                                class="btn btn-outline-primary"
-                            >
-                                ->
-                            </button> -->
+                        </div>
+                        <div class="col-auto">
                             <span
                                 class="material-symbols-outlined icon clickable"
                             >
                                 key
                             </span>
+                        </div>
+                    </div> -->
+                    <div class="row g-3 mt-2">
+                        <div class="col-auto">
+                          <label for="artistEmail">Email Address</label>
+                          <!-- <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com"> -->
+                        </div>
+                        <div class="col-md-8">
+                          <!-- <label for="inputPassword2" class="visually-hidden">Password</label> -->
+                          <input type="text" class="form-control" id="artistEmail" placeholder="email@example.com">
+                        </div>
+                        <div class="col-auto">
+                          <button type="submit" class="btn btn-primary mb-3">Login</button>
                         </div>
                     </div>
                     <div id="artist-detail" class="mb-2">
@@ -177,32 +187,80 @@
                         >
                         <input class="form-control" type="file" id="formFile" />
 
-                        <div class="row mb-3">
-                            <label
-                                for="inputEmail3"
-                                class="col-sm-2 col-form-label"
-                                >Email</label
-                            >
-                            <div class="col-sm-10">
-                                <input
-                                    type="email"
-                                    class="form-control"
-                                    id="inputEmail3"
-                                />
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
+                        <div class="row mb-3 mt-2">
                             <label
                                 for="titleOfWork"
-                                class="col-md-2 col-form-label"
+                                class="col-md-1 col-form-label"
                                 >Title</label
                             >
-                            <div class="col-md-10">
+                            <div class="col-md-11">
                                 <input
                                     type="text"
                                     name="titleOfWork"
                                     id="titleOfWork"
+                                    class="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <label
+                                for="widthOfWork"
+                                class="col-md-1 col-form-label"
+                            >
+                                Width (in)
+                            </label>
+                            <div class="col-md-2">
+                                <input
+                                    type="text"
+                                    name="widthOfWork"
+                                    id="widthOfWork"
+                                    class="form-control"
+                                />
+                            </div>
+
+                            <label
+                                for="heightOfWork"
+                                class="col-md-1 col-form-label"
+                            >
+                                Height (in)
+                            </label>
+                            <div class="col-md-2">
+                                <input
+                                    type="text"
+                                    name="heightOfWork"
+                                    id="heightOfWork"
+                                    class="form-control"
+                                />
+                            </div>
+
+                            <label
+                                for="mediumOfWork"
+                                class="col-md-1 col-form-label"
+                            >
+                                Medium
+                            </label>
+                            <div class="col-md-5">
+                                <input
+                                    type="text"
+                                    name="mediumOfWork"
+                                    id="mediumOfWork"
+                                    class="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <label
+                                for="priceOfWork"
+                                class="col-md-1 col-form-label"
+                            >
+                                Price $
+                            </label>
+
+                            <div class="col-md-2">
+                                <input
+                                    type="text"
+                                    name="priceOfWork"
+                                    id="priceOfWork"
                                     class="form-control"
                                 />
                             </div>
