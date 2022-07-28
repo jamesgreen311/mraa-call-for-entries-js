@@ -1,5 +1,10 @@
 const route = getRoute()
-const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbx0NnV9wQTAkYzvIgqEms8C_HZFTRTjSs5radWTwtMj0xs6hIBm8my6QtAThuytVWY/exec" +
+const cfe = {
+    "id" : "",
+    "name" : ""
+}
+// End Point version 3
+const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbzKGirgCgKgIrCfSaKNOgEwcO2Gt5PTrPyerMwhceN5KuQawnHqZ5sj2uYjAb1-arZE/exec" +
     "?q="
 var test = true
 
@@ -34,16 +39,24 @@ function loadPageElements() {
     console.log(route)
 }
 
-
 function fetchOpenCalls() {
-    const url = EP_CFEAPI + "opencalls"
-    fetch(url) 
-    .then(resp => resp.json())
-    .then(resp => {
-        let name = resp[2]
-        displayExhibitName(name)
-    })
-    .catch()
+    const url = EP_CFEAPI + "opencalls" + "&id=" + route.id    
+    if (cfe.id === route.id) {
+        // skip fetch
+        displayExhibitName(cfe.name)
+    } else {
+
+        fetch(url) 
+        .then(resp => resp.json())
+        .then(resp => {
+            cfe.closedate = resp[0]            
+            cfe.id = resp[1]
+            cfe.name = resp[2]
+            displayExhibitName(cfe.name)
+        })
+        .catch()        
+    }
+
 }
 
 
