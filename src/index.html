@@ -48,7 +48,12 @@
                     >
                 </div>
             </div>
-            <form action="#">
+            <form
+                action="#"
+                id="form-artist-info"
+                class="needs-validation"
+                novalidate
+            >
                 <div id="artist-info">
                     <div class="header">
                         <span class="material-symbols-outlined icon">
@@ -56,7 +61,7 @@
                         </span>
                         <span class="text">Artist Login</span>
                     </div>
-<!--                     <div class="row g-3">
+                    <!--                     <div class="row g-3">
                         <div class="col-auto">
                             <label for="artistEmail" 
                                 >Email Address</label
@@ -80,53 +85,108 @@
                     </div> -->
                     <div class="row g-3 mt-2">
                         <div class="col-auto col-form-label">
-                          <label for="artistEmail">Email Address</label>
-                          <!-- <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com"> -->
+                            <label for="artistEmail">Email Address</label>
+                            <!-- <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com"> -->
                         </div>
                         <div class="col-md-8">
-                          <!-- <label for="inputPassword2" class="visually-hidden">Password</label> -->
-                          <input type="text" class="form-control" id="artistEmail" placeholder="email@example.com">
+                            <!-- <label for="inputPassword2" class="visually-hidden">Password</label> -->
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="artistEmail"
+                                placeholder="email@example.com"
+                                required
+                            />
+                            <div id="emailMsg" class="invalid-feedback fs-6">
+                                Must enter a valid email address
+                            </div>
                         </div>
                         <div class="col-auto">
-                          <button type="submit" class="btn btn-primary mb-3">Login</button>
+                            <button
+                                type="submit"
+                                class="btn btn-primary mb-3"
+                                id="loginButton"
+                            >
+                                Login
+                            </button>
                         </div>
                     </div>
                     <div id="artist-detail" class="mb-2 d-none">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td class="label">Name</td>
-                                <td>Mary Artist</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Phone</td>
-                                <td>804-111-2233</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Status</td>
-                                <td>
-                                    <span class="valid-member"
-                                        >Exhibiting Member</span
-                                    >
-                                    <span
-                                        class="material-symbols-outlined valid-member small-icon"
-                                    >
-                                        done
-                                    </span>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-1 label">Name</div>
+                                <div class="col-10" id="artist-name">Loading ...</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1 label">Phone</div>
+                                <div class="col-10" id="artist-phone"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1 label">Status</div>
+                                <div class="col-10">
+                                    <div id="valid-member" class="d-none">
+                                        <span class="valid-member"
+                                            >Exhibiting Member</span
+                                        >
+                                        <span
+                                            class="material-symbols-outlined valid-member small-icon"
+                                        >
+                                            done
+                                        </span>
+                                    </div>
                                     <!-- invalid member -->
-                                    <span class="invalid-member"
-                                        >Not an Exhibiting Member</span
-                                    >
-                                    <span
-                                        class="material-symbols-outlined invalid-member small-icon"
-                                    >
-                                        close
-                                    </span>
-                                </td>
-                            </tr>
-                        </table>
+                                    <div id="invalid-member" class="d-none">
+                                        <span class="invalid-member"
+                                            >Not an Exhibiting Member</span
+                                        >
+                                        <span
+                                            class="material-symbols-outlined invalid-member small-icon"
+                                        >
+                                            close
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--                         <table
+                            class="table table-sm table-borderless table-responsive"
+                        >
+                            <tbody>
+                                <tr>
+                                    <th scope="row" class="label">Name</th>
+                                    <td id="artist-name">Loading ...</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="label">Phone</th>
+                                    <td id="artist-phone"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="label">Status</th>
+                                    <td>
+                                        <span class="valid-member d-none"
+                                            >Exhibiting Member</span
+                                        >
+                                        <span
+                                            class="material-symbols-outlined valid-member small-icon"
+                                        >
+                                            done
+                                        </span>
+                                        
+                                        <span class="invalid-member d-none"
+                                            >Not an Exhibiting Member</span
+                                        >
+                                        <span
+                                            class="material-symbols-outlined invalid-member small-icon"
+                                        >
+                                            close
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> -->
                     </div>
                 </div>
-                <div id="upload-history">
+                <div id="upload-history" class="d-none">
                     <div class="header">
                         <span class="material-symbols-outlined icon">
                             cloud_upload
@@ -152,7 +212,9 @@
                         </table>
                     </div>
                 </div>
-                <div id="upload-images">
+            </form>
+            <form id="form-upload-images">
+                <div id="upload-images" class="d-none">
                     <div class="header">
                         <span class="material-symbols-outlined icon">
                             file_upload
@@ -183,7 +245,10 @@
                     <div class="mb-3">
                         <label for="formFile" class="form-label"
                             >You can submit up to
-                            <span id="max-images" class="text-muted">[loading...]</span> images</label
+                            <span id="max-images" class="text-muted"
+                                >[loading...]</span
+                            >
+                            images</label
                         >
                         <input class="form-control" type="file" id="formFile" />
 
@@ -265,17 +330,21 @@
                                 />
                             </div>
                             <div class="col-auto mt-2">
-                                <button type="submit" class="btn btn-primary">Submit Work</button>
+                                <button type="submit" class="btn btn-primary">
+                                    Submit Work
+                                </button>
                             </div>
                             <div class="col-auto col-form-label mt-2">
                                 <span class="label">Total Fee: </span>
-                                <span id="totalFee" class="text-muted">Calculating ...</span>
+                                <span id="totalFee" class="text-muted"
+                                    >Calculating ...</span
+                                >
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div id="payment">
+                <div id="payment" class="d-none">
                     <div class="header">
                         <span class="material-symbols-outlined icon">
                             local_atm
@@ -285,9 +354,8 @@
 
                     Link to PayPal here
                 </div>
-
             </form>
-            <div id="footer" class="footer">
+            <div id="footer" class="footer mt-3">
                 Metropolitan Richmond Artists Association |
                 <span id="copyright">Copyright &copy;</span>
                 <span id="year">2022</span>
@@ -304,6 +372,30 @@
 
         <script src="../src/js/router.js"></script>
         <script src="../src/js/main.js"></script>
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields, source Bootstrap 5
+            (function () {
+                "use strict";
 
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll(".needs-validation");
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms).forEach(function (form) {
+                    form.addEventListener(
+                        "submit",
+                        function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+
+                            form.classList.add("was-validated");
+                        },
+                        false
+                    );
+                });
+            })();
+        </script>
     </body>
 </html>
