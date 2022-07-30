@@ -12,8 +12,8 @@ const member = {
     "status" : "", 
     "type" : ""
 }
-// End Point version 5
-const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbzU5UWDgWRJRdB25Ph9T79mpFtx_pqOtntDK5jbusTrRcyqid4F0KkPipMooORbswCs/exec" +
+// End Point version 6
+const EP_CFEAPI = "https://script.google.com/macros/s/AKfycby2Wvy571B_jfMLALimHncq-sJfq8xjVtqKWswxd5ne4sCH8M3WNp3EooI8NDkskJQC/exec" +
     "?q="
 var test = true
 
@@ -22,27 +22,34 @@ function displayExhibitName(name) {
     ele.innerText = name
 }
 
-function displayMember(member, activeexhibitor) {
+function displayMember(member) {
     const artistNameElement = document.getElementById("artist-name")
     const artistPhoneElement = document.getElementById("artist-phone")
     const validMemberElement = document.getElementById("valid-member")
+    const notExhibitingMemberElement = document.getElementById("not-exhibiting-member")
+    const notActiveMemberElement = document.getElementById("not-active-member")
     const invalidMemberElement = document.getElementById("invalid-member")
 
-    artistNameElement.innerText = member.firstname + " " + member.lastname
-    artistPhoneElement.innerText = member.phone
+    document.getElementById("artist-name").innerText = ""
+    if (member.status !== "notvalid") {
+        artistNameElement.innerText = member.firstname + " " + member.lastname
+        artistPhoneElement.innerText = member.phone
 
-    if (activeexhibitor) {
-        validMemberElement.classList.remove('d-none')        
+        const activeexhibitor = isMember(member, "active", "exhibiting")  
+        if (activeexhibitor) {
+            validMemberElement.classList.remove('d-none')    
+        } else {
+            if (member.status !== "active") {
+                notActiveMemberElement.classList.remove('d-none')
+            }
+            if (member.type !== "exhibiting") {
+                notExhibitingMemberElement.classList.remove('d-none')
+            }
+        } 
     } else {
-        invalidMemberElement.classList.remove('d-none')
+        invalidMemberElement.classList.remove('d-none')        
     }
 
-}
-
-function displayMemberError() {
-    const invalidMemberElement = document.getElementById("invalid-member")
-    invalidMemberElement.innerText = "Not an MRAA member email address"
-    invalidMemberElement.classList.remove('d-none')
 }
 
 function mode() {
@@ -56,15 +63,6 @@ function mode() {
 
     }
 }
-/* 
-function getExhibit() {
-    const exhibit = route.path
-    // path = oldest, get first row from Open Calls
-    // path = newest, get last row from Open Calls
-    // path = all others, assume exhibit id, filter Open Calls for exhibit id
-    const openCalls = getOpenCalls()
-    const exhibitName = ""
-} */
 
 function loadPageElements() {
     fetchOpenCalls()
@@ -107,20 +105,25 @@ function fetchMember(id) {
             member.phone = resp[10]
             member.status = resp[4]
             member.type = resp[12]     
-            
-            if (isMember(member, "active", "exhibiting")) {
-                displayMember(member, true)
-            } else {
-                displayMember(member, false)
-            }
+
         } else {
-            displayMemberError()
+            member.email = id
+            member.firstname = "n/a"
+            member.lastname = "n/a"
+            member.phone = "n/a"
+            member.status = "notvalid"
+            member.type = "n/a"
+
         }
+        displayMember(member)
     })
     .catch()  
 }
 
 function isMember(member, status, type) {
+    const activeMember = false
+    const exhibitingMember = false
+
     return (member.status===status && member.type===type)
 }
 
@@ -144,3 +147,6 @@ function emailValidate() {
 document.addEventListener("DOMContentLoaded", loadPageElements)
 //document.addEventListener("DOMContentLoaded", mode)
 document.getElementById("loginButton").addEventListener("click", emailValidate)
+document.getElementById("form-artist-info").addEventListener("submit", (event) => {
+    event.preventDefault()
+})
