@@ -35,15 +35,20 @@ function displayMember(member) {
         artistNameElement.innerText = member.firstname + " " + member.lastname
         artistPhoneElement.innerText = member.phone
 
-        const activeexhibitor = isMember(member, "active", "exhibiting")  
+        const activeexhibitor = isMember(member, "active", ["exhibiting", "honorary"])  
         if (activeexhibitor) {
-            validMemberElement.classList.remove('d-none')    
+            validMemberElement.classList.remove('d-none')  
+            notActiveMemberElement.classList.add('d-none')
+            notExhibitingMemberElement.classList.add('d-none')
+            allowAccess()  
         } else {
             if (member.status !== "active") {
                 notActiveMemberElement.classList.remove('d-none')
+                invalidMemberElement.classList.add('d-none')
             }
-            if (member.type !== "exhibiting") {
+            if (member.type !== "exhibiting" && member.type !== "honorary") {
                 notExhibitingMemberElement.classList.remove('d-none')
+                invalidMemberElement.classList.add('d-none')
             }
         } 
     } else {
@@ -64,9 +69,28 @@ function mode() {
     }
 }
 
+function allowAccess() {
+    const memberAccess = document.getElementsByClassName("member-access")
+
+    // show all hidden elements
+    let allMemberAccess = memberAccess.length
+    for (i=allMemberAccess-1; i>=0; i--) {
+        memberAccess[i].classList.remove("d-none")
+    }
+}
+
+function resetErrorMessages() {
+    const notExhibitingMemberElement = document.getElementById("not-exhibiting-member")
+    const notActiveMemberElement = document.getElementById("not-active-member")
+    const invalidMemberElement = document.getElementById("invalid-member")
+    
+    invalidMemberElement.classList.add('d-none')   
+    notActiveMemberElement.classList.add('d-none') 
+    notExhibitingMemberElement.classList.add('d-none')
+}
+
 function loadPageElements() {
     fetchOpenCalls()
-    console.log(route)
 }
 
 function fetchOpenCalls() {
@@ -93,6 +117,7 @@ function fetchMember(id) {
     const url = EP_CFEAPI + "member" + "&id=" + id
     const artistDetailBlock = document.getElementById("artist-detail")
     artistDetailBlock.classList.remove('d-none')
+    resetErrorMessages()
 
     fetch(url) 
     .then(resp => resp.json())
@@ -121,21 +146,14 @@ function fetchMember(id) {
 }
 
 function isMember(member, status, type) {
-    const activeMember = false
-    const exhibitingMember = false
-
-    return (member.status===status && member.type===type)
+    return (member.status===status && type.includes(member.type))
 }
 
 function emailValidate() { 
-    let emailAddress = document.getElementById("artistEmail").value
+    const emailAddress = document.getElementById("artistEmail").value
     const form = document.getElementById("form-artist-info")
 
-    console.log(emailAddress)
-    validEmail = form.checkValidity()
-    console.log(validEmail)
-
-    if (validEmail) {
+    if (form.checkValidity()) {
         // fetch member
         fetchMember(emailAddress)
     } else {
@@ -143,7 +161,6 @@ function emailValidate() {
     }
 }
 
-//document.addEventListener("DOMContentLoaded", getRoute)
 document.addEventListener("DOMContentLoaded", loadPageElements)
 //document.addEventListener("DOMContentLoaded", mode)
 document.getElementById("loginButton").addEventListener("click", emailValidate)

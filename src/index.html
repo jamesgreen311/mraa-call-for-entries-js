@@ -41,9 +41,9 @@
             <div id="banner" class="banner">
                 <div id="logo"></div>
                 <div id="title">
-                    <span class="bold">Call For Entries </span>
-                    <span class="light">New Exhibit</span><br />
-                    <span id="exhibit-title" class="bold bright">
+                    <span class="bold fs-3">Call For Entries </span>
+                    <span class="light fs-6">New Exhibit</span><br />
+                    <span id="exhibit-title" class="bold bright fs-3">
                         Loading...</span
                     >
                 </div>
@@ -88,7 +88,7 @@
                             <label for="artistEmail">Email Address</label>
                             <!-- <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com"> -->
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-sm-6 col-md-8">
                             <!-- <label for="inputPassword2" class="visually-hidden">Password</label> -->
                             <input
                                 type="email"
@@ -111,19 +111,19 @@
                             </button>
                         </div>
                     </div>
-                    <div id="artist-detail" class="mb-2 d-none">
+                    <div id="artist-detail" class="mb-2 d-none member-access">
                         <div class="container">
                             <div class="row">
-                                <div class="col-1 label">Name</div>
-                                <div class="col-10" id="artist-name">Loading ...</div>
+                                <div class="col-4 col-sm-1 label">Name</div>
+                                <div class="col-8 col-sm-11" id="artist-name">Loading ...</div>
                             </div>
                             <div class="row">
-                                <div class="col-1 label">Phone</div>
-                                <div class="col-10" id="artist-phone"></div>
+                                <div class="col-4 col-sm-1 label">Phone</div>
+                                <div class="col-8 col-sm-11" id="artist-phone"></div>
                             </div>
                             <div class="row">
-                                <div class="col-1 label">Status</div>
-                                <div class="col-10">
+                                <div class="col-4 col-sm-1 label">Status</div>
+                                <div class="col-8 col-sm-11">
                                     <div id="valid-member" class="d-none">
                                         <span class="valid-member"
                                             >Exhibiting Member</span
@@ -167,45 +167,9 @@
                                 </div>
                             </div>
                         </div>
-<!--                         <table
-                            class="table table-sm table-borderless table-responsive"
-                        >
-                            <tbody>
-                                <tr>
-                                    <th scope="row" class="label">Name</th>
-                                    <td id="artist-name">Loading ...</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="label">Phone</th>
-                                    <td id="artist-phone"></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="label">Status</th>
-                                    <td>
-                                        <span class="valid-member d-none"
-                                            >Exhibiting Member</span
-                                        >
-                                        <span
-                                            class="material-symbols-outlined valid-member small-icon"
-                                        >
-                                            done
-                                        </span>
-                                        
-                                        <span class="invalid-member d-none"
-                                            >Not an Exhibiting Member</span
-                                        >
-                                        <span
-                                            class="material-symbols-outlined invalid-member small-icon"
-                                        >
-                                            close
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table> -->
                     </div>
                 </div>
-                <div id="upload-history" class="d-none">
+                <div id="upload-history" class="d-none member-access">
                     <div class="header">
                         <span class="material-symbols-outlined icon">
                             cloud_upload
@@ -233,7 +197,7 @@
                 </div>
             </form>
             <form id="form-upload-images">
-                <div id="upload-images" class="d-none">
+                <div id="upload-images" class="d-none member-access">
                     <div class="header">
                         <span class="material-symbols-outlined icon">
                             file_upload
@@ -363,7 +327,7 @@
                     </div>
                 </div>
 
-                <div id="payment" class="d-none">
+                <div id="payment" class="d-none member-access">
                     <div class="header">
                         <span class="material-symbols-outlined icon">
                             local_atm
