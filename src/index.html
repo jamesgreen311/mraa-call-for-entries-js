@@ -22,7 +22,7 @@
             crossorigin="anonymous"
             type="text/css"
         />
-
+        <link rel="preconnect" href="https://script.google.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -115,11 +115,15 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-4 col-sm-1 label">Name</div>
-                                <div class="col-8 col-sm-11" id="artist-name">Loading ...</div>
+                                <div class="col-8 col-sm-11" id="artist-name">
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-4 col-sm-1 label">Phone</div>
-                                <div class="col-8 col-sm-11" id="artist-phone"></div>
+                                <div
+                                    class="col-8 col-sm-11"
+                                    id="artist-phone"
+                                ></div>
                             </div>
                             <div class="row">
                                 <div class="col-4 col-sm-1 label">Status</div>
@@ -134,7 +138,10 @@
                                             done
                                         </span>
                                     </div>
-                                    <div id="not-exhibiting-member" class="d-none">
+                                    <div
+                                        id="not-exhibiting-member"
+                                        class="d-none"
+                                    >
                                         <span class="invalid-member"
                                             >Not an Exhibiting Member</span
                                         >
@@ -156,7 +163,8 @@
                                     </div>
                                     <div id="invalid-member" class="d-none">
                                         <span class="invalid-member"
-                                            >Not an MRAA member email address</span
+                                            >Not an MRAA member email
+                                            address</span
                                         >
                                         <span
                                             class="material-symbols-outlined invalid-member small-icon"
@@ -176,7 +184,24 @@
                         </span>
                         <span class="text">Upload History For This Event</span>
                     </div>
-                    <div id="upload-history" class="filelist">
+                    <div id="fetching-uploads">
+                        <div class="loadingio-spinner-spinner-0mrqsirpbdgo">
+                            <div class="ldio-mln9hvqf3o">
+                                <div><div></div></div>
+                                <div><div></div></div>
+                                <div><div></div></div>
+                                <div><div></div></div>
+                                <div><div></div></div>
+                                <div><div></div></div>
+                                <div><div></div></div>
+                                <div><div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="upload-history-notfound" class="d-none">
+                        <span>No uploads found for this Exhibit</span>
+                    </div>
+                    <div id="upload-history-found" class="filelist d-none">
                         <table class="table table-striped">
                             <thead>
                                 <th>File Names</th>

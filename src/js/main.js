@@ -12,10 +12,11 @@ const member = {
     "status" : "", 
     "type" : ""
 }
-// End Point version 6
-const EP_CFEAPI = "https://script.google.com/macros/s/AKfycby2Wvy571B_jfMLALimHncq-sJfq8xjVtqKWswxd5ne4sCH8M3WNp3EooI8NDkskJQC/exec" +
+// End Point version 8
+const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbzw6trQhx9bjfanByaFf5wabolmcAj7H3DqBZtP9tphtt4E3d1eA9UnCO84mWJ0DjJW/exec" +
     "?q="
 var test = true
+var uploads = []
 
 function displayExhibitName(name) {
     const ele = document.getElementById("exhibit-title")
@@ -55,6 +56,20 @@ function displayMember(member) {
         invalidMemberElement.classList.remove('d-none')        
     }
 
+}
+
+function displayUploads(uploads) {
+    const fetchingBlock = document.getElementById("fetching-uploads")
+    const uploadHistoryFound = document.getElementById("upload-history-found")
+    const uploadHistoryNotFound = document.getElementById("upload-history-notfound")
+
+    fetchingBlock.classList.add('d-none')
+    if (uploads.length>0) {
+        // build table body
+        uploadHistoryFound.classList.remove('d-none')
+    } else {
+        uploadHistoryNotFound.classList.remove('d-none')
+    }
 }
 
 function mode() {
@@ -116,7 +131,11 @@ function fetchOpenCalls() {
 function fetchMember(id) {
     const url = EP_CFEAPI + "member" + "&id=" + id
     const artistDetailBlock = document.getElementById("artist-detail")
+    const uploadHistoryBlock = document.getElementById("upload-history")
+
     artistDetailBlock.classList.remove('d-none')
+    uploadHistoryBlock.classList.remove('d-none')
+
     resetErrorMessages()
 
     fetch(url) 
@@ -130,6 +149,9 @@ function fetchMember(id) {
             member.phone = resp[10]
             member.status = resp[4]
             member.type = resp[12]     
+
+            // attempt to fetch any uploads for this member
+            fetchUploads(cfe, member)
 
         } else {
             member.email = id
@@ -145,6 +167,22 @@ function fetchMember(id) {
     .catch()  
 }
 
+function fetchUploads(cfe, member) {
+    const p = {
+        'artist' : member.email,
+        'event' : cfe.id,
+        'key' : 'id'
+    }
+    const url = EP_CFEAPI + "uploads" + "&id=" + JSON.stringify(p)
+
+    fetch(url) 
+    .then(resp => resp.json())
+    .then(resp => {
+        uploads = [...resp]
+        displayUploads(uploads)
+    })
+}
+
 function isMember(member, status, type) {
     return (member.status===status && type.includes(member.type))
 }
@@ -156,6 +194,7 @@ function emailValidate() {
     if (form.checkValidity()) {
         // fetch member
         fetchMember(emailAddress)
+
     } else {
         // error handling by Bootstrap
     }
