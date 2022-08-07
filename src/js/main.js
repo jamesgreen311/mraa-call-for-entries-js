@@ -12,8 +12,8 @@ const member = {
     "status" : "", 
     "type" : ""
 }
-// End Point version 8
-const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbzw6trQhx9bjfanByaFf5wabolmcAj7H3DqBZtP9tphtt4E3d1eA9UnCO84mWJ0DjJW/exec" +
+// End Point version 9
+const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbw4pRaF9F7xIL9-SbgFsgU7LbD9alJzXA0zAk5Hw7huoAUezzFsMadrpz089l7NXIw/exec" +
     "?q="
 var test = true
 var uploads = []
