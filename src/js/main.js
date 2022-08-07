@@ -62,10 +62,22 @@ function displayUploads(uploads) {
     const fetchingBlock = document.getElementById("fetching-uploads")
     const uploadHistoryFound = document.getElementById("upload-history-found")
     const uploadHistoryNotFound = document.getElementById("upload-history-notfound")
+    const uploadHistoryTable = document.getElementById("upload-history-table")
+    const uhtBody = uploadHistoryTable.getElementsByTagName("tbody")[0]
 
     fetchingBlock.classList.add('d-none')
     if (uploads.length>0) {
         // build table body
+        for(let i=0; i<uploads.length; i++) {
+            let row = document.createElement("tr")
+            let col1 = document.createElement("td")
+            let col2 = document.createElement("td")
+            col1.innerText = uploads[i][0]
+            col2.innerText = uploads[i][1]
+            row.appendChild(col1)
+            row.appendChild(col2)
+            uhtBody.appendChild(row)
+        }
         uploadHistoryFound.classList.remove('d-none')
     } else {
         uploadHistoryNotFound.classList.remove('d-none')
