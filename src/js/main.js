@@ -1,3 +1,4 @@
+
 const route = getRoute()
 const cfe = {
     "closedate" : "",
@@ -76,7 +77,7 @@ function displayUploads(uploads) {
             let col1 = document.createElement("td")
             let col2 = document.createElement("td")
             col1.innerText = uploads[i][0]
-            col2.innerText = uploads[i][1]
+            col2.innerText = moment(uploads[i][1]).format("dddd, MMMM D YYYY, h:mma")
             row.appendChild(col1)
             row.appendChild(col2)
             uhtBody.appendChild(row)
