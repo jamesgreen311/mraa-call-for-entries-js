@@ -61,13 +61,11 @@ function displayMember(member) {
 }
 
 function displayUploads(uploads) {
-    //const fetchingBlock = document.getElementById("fetching-uploads")
     const uploadHistoryFound = document.getElementById("upload-history-found")
     const uploadHistoryNotFound = document.getElementById("upload-history-notfound")
     const uploadHistoryTable = document.getElementById("upload-history-table")
     const uhtBody = uploadHistoryTable.getElementsByTagName("tbody")[0]
 
-    //fetchingBlock.classList.add('d-none')
     if (uploads.length>0) {
         // build table body
         for(let i=0; i<uploads.length; i++) {
@@ -162,7 +160,8 @@ function loadPageElements() {
 }
 
 function fetchOpenCalls() {
-    const url = EP_CFEAPI + "opencalls" + "&id=" + route.id    
+    const pId = [route.id]
+    const url = EP_CFEAPI + "opencalls" + "&id=" + pId 
     if (cfe.id === route.id) {
         // skip fetch
         displayExhibitName(cfe.name)
@@ -183,10 +182,6 @@ function fetchOpenCalls() {
 
 function fetchMember(id) {
     const url = EP_CFEAPI + "member" + "&id=" + id
-    //const artistDetailBlock = document.getElementById("artist-detail")
-/*     const uploadHistoryBlock = document.getElementById("upload-history")
-
-    uploadHistoryBlock.classList.remove('d-none') */
 
     resetErrorMessages()
 
@@ -202,7 +197,6 @@ function fetchMember(id) {
             member.status = resp[4]
             member.type = resp[12]     
 
-            //artistDetailBlock.classList.remove('d-none')
             artistDetailBlock(true)
             fetchingArtist(false)
             // attempt to fetch any uploads for this member
@@ -260,14 +254,12 @@ function emailValidate() {
 }
 
 function resetDisplay() {
-    if (emailAddressOld!=="") {
-        //alert('email address change')    
+    if (emailAddressOld!=="") { 
         // turn off artist detail
         artistDetailBlock(false)
         // turn off upload history
         uploadHistoryBlock(false)
         clearUploadHistory()
-
     }
 
     emailAddressOld = document.getElementById("artist-email").value
