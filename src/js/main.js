@@ -57,6 +57,7 @@ function displayMember(member) {
                 notExhibitingMemberElement.classList.remove('d-none')
                 invalidMemberElement.classList.add('d-none')
             }
+            disallowAccess()
         } 
     } else {
         invalidMemberElement.classList.remove('d-none')        
@@ -154,6 +155,16 @@ function allowAccess() {
     let allMemberAccess = memberAccess.length
     for (i=allMemberAccess-1; i>=0; i--) {
         memberAccess[i].classList.remove("d-none")
+    }
+}
+
+function disallowAccess() {
+    const memberAccess = document.getElementsByClassName("member-access")
+
+    // show all hidden elements
+    let allMemberAccess = memberAccess.length
+    for (i=allMemberAccess-1; i>=0; i--) {
+        memberAccess[i].classList.add("d-none")
     }
 }
 
