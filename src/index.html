@@ -85,15 +85,13 @@
                     </div> -->
                     <div class="row g-3 mt-2">
                         <div class="col-auto col-form-label">
-                            <label for="artistEmail">Email Address</label>
-                            <!-- <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com"> -->
+                            <label for="artist-email">Email Address</label>
                         </div>
                         <div class="col-sm-6 col-md-8">
-                            <!-- <label for="inputPassword2" class="visually-hidden">Password</label> -->
                             <input
                                 type="email"
                                 class="form-control"
-                                id="artistEmail"
+                                id="artist-email"
                                 placeholder="email@example.com"
                                 required
                             />
@@ -105,14 +103,28 @@
                             <button
                                 type="submit"
                                 class="btn btn-primary mb-3"
-                                id="loginButton"
+                                id="login-button"
                             >
                                 Login
                             </button>
                         </div>
                     </div>
-                    <div id="artist-detail" class="mb-2 d-none member-access">
-                        <div class="container">
+                    <div class="mb-2 member-access">
+                        <div id="fetching-artist" class="d-none">
+                            <div class="loadingio-spinner-spinner-0mrqsirpbdgo">
+                                <div class="ldio-mln9hvqf3o">
+                                    <div><div></div></div>
+                                    <div><div></div></div>
+                                    <div><div></div></div>
+                                    <div><div></div></div>
+                                    <div><div></div></div>
+                                    <div><div></div></div>
+                                    <div><div></div></div>
+                                    <div><div></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="artist-detail" class="d-none container">
                             <div class="row">
                                 <div class="col-4 col-sm-1 label">Name</div>
                                 <div class="col-8 col-sm-11" id="artist-name">

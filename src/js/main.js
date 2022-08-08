@@ -10,13 +10,15 @@ const member = {
     "lastname" : "",
     "phone" : "",
     "status" : "", 
-    "type" : ""
+    "type" : "",
+    "uploadcount" : ""
 }
 // End Point version 9
 const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbw4pRaF9F7xIL9-SbgFsgU7LbD9alJzXA0zAk5Hw7huoAUezzFsMadrpz089l7NXIw/exec" +
     "?q="
 var test = true
 var uploads = []
+var emailAddressOld = ""
 
 function displayExhibitName(name) {
     const ele = document.getElementById("exhibit-title")
@@ -59,13 +61,13 @@ function displayMember(member) {
 }
 
 function displayUploads(uploads) {
-    const fetchingBlock = document.getElementById("fetching-uploads")
+    //const fetchingBlock = document.getElementById("fetching-uploads")
     const uploadHistoryFound = document.getElementById("upload-history-found")
     const uploadHistoryNotFound = document.getElementById("upload-history-notfound")
     const uploadHistoryTable = document.getElementById("upload-history-table")
     const uhtBody = uploadHistoryTable.getElementsByTagName("tbody")[0]
 
-    fetchingBlock.classList.add('d-none')
+    //fetchingBlock.classList.add('d-none')
     if (uploads.length>0) {
         // build table body
         for(let i=0; i<uploads.length; i++) {
@@ -82,6 +84,45 @@ function displayUploads(uploads) {
     } else {
         uploadHistoryNotFound.classList.remove('d-none')
     }
+}
+
+function fetchingArtist(toggle) {
+    const fetchingBlock = document.getElementById('fetching-artist')
+    if (toggle) {
+        fetchingBlock.classList.remove('d-none') 
+    } else {
+        fetchingBlock.classList.add('d-none')
+    }
+}
+
+function fetchingUploads(toggle) {
+    const fetchingBlock = document.getElementById('fetching-uploads')
+    if (toggle) {
+        fetchingBlock.classList.remove('d-none') 
+    } else {
+        fetchingBlock.classList.add('d-none')
+    }
+}
+
+function artistDetailBlock(toggle) {
+    // toggle true is on/show, false is off/hide
+    const artistDetailBlock = document.getElementById('artist-detail')
+    if (toggle) {
+        artistDetailBlock.classList.remove('d-none')
+    } else {
+        artistDetailBlock.classList.add('d-none')
+    }
+}
+
+function uploadHistoryBlock(toggle) {
+    // toggle true is on/show, false is off/hide
+    const uploadHistoryBlock = document.getElementById("upload-history")
+    if (toggle) {
+        uploadHistoryBlock.classList.remove('d-none')        
+    } else {
+        uploadHistoryBlock.classList.add('d-none')
+    }
+
 }
 
 function mode() {
@@ -142,11 +183,10 @@ function fetchOpenCalls() {
 
 function fetchMember(id) {
     const url = EP_CFEAPI + "member" + "&id=" + id
-    const artistDetailBlock = document.getElementById("artist-detail")
-    const uploadHistoryBlock = document.getElementById("upload-history")
+    //const artistDetailBlock = document.getElementById("artist-detail")
+/*     const uploadHistoryBlock = document.getElementById("upload-history")
 
-    artistDetailBlock.classList.remove('d-none')
-    uploadHistoryBlock.classList.remove('d-none')
+    uploadHistoryBlock.classList.remove('d-none') */
 
     resetErrorMessages()
 
@@ -162,7 +202,11 @@ function fetchMember(id) {
             member.status = resp[4]
             member.type = resp[12]     
 
+            //artistDetailBlock.classList.remove('d-none')
+            artistDetailBlock(true)
+            fetchingArtist(false)
             // attempt to fetch any uploads for this member
+            fetchingUploads(true)
             fetchUploads(cfe, member)
 
         } else {
@@ -191,7 +235,9 @@ function fetchUploads(cfe, member) {
     .then(resp => resp.json())
     .then(resp => {
         uploads = [...resp]
+        fetchingUploads(false)
         displayUploads(uploads)
+        member.uploadcount = resp.length
     })
 }
 
@@ -200,11 +246,12 @@ function isMember(member, status, type) {
 }
 
 function emailValidate() { 
-    const emailAddress = document.getElementById("artistEmail").value
+    const emailAddress = document.getElementById("artist-email").value
     const form = document.getElementById("form-artist-info")
 
     if (form.checkValidity()) {
         // fetch member
+        fetchingArtist(true)
         fetchMember(emailAddress)
 
     } else {
@@ -212,9 +259,35 @@ function emailValidate() {
     }
 }
 
+function resetDisplay() {
+    if (emailAddressOld!=="") {
+        //alert('email address change')    
+        // turn off artist detail
+        artistDetailBlock(false)
+        // turn off upload history
+        uploadHistoryBlock(false)
+        clearUploadHistory()
+
+    }
+
+    emailAddressOld = document.getElementById("artist-email").value
+}
+
+function clearUploadHistory() {
+    const uploadHistoryTable = document.getElementById("upload-history-table")
+    const uhtBody = uploadHistoryTable.getElementsByTagName("tbody")[0]
+    const uploadHistoryFound = document.getElementById("upload-history-found")
+    const uploadHistoryNotFound = document.getElementById("upload-history-notfound")
+
+    uploadHistoryFound.classList.add('d-none')
+    uploadHistoryNotFound.classList.add('d-none')
+    uhtBody.innerHTML = ""
+}
+
 document.addEventListener("DOMContentLoaded", loadPageElements)
 //document.addEventListener("DOMContentLoaded", mode)
-document.getElementById("loginButton").addEventListener("click", emailValidate)
+document.getElementById("login-button").addEventListener("click", emailValidate)
+document.getElementById("artist-email").addEventListener("change", resetDisplay)
 document.getElementById("form-artist-info").addEventListener("submit", (event) => {
     event.preventDefault()
 })
