@@ -236,123 +236,121 @@
                         <span class="text">Add Submissions</span>
                     </div>
 
-                    <div id="upload-gallery">
+                    <div id="upload-gallery" class="d-none">
+                        <h3 class="fs-6">Images Uploaded</h3>
                         <ul class="gallery">
                             <li>
                                 <span>Image Placeholder</span>
-                                <span class="saved">Saved</span>
+                                <span class="saved d-none">Saved</span>
                             </li>
                             <li>
                                 <span>Image Placeholder</span>
-                                <span class="saved">Saved</span>
+                                <span class="saved d-none">Saved</span>
                             </li>
                             <li>
                                 <span>Image Placeholder</span>
-                                <span class="saved">Saved</span>
+                                <span class="saved d-none">Saved</span>
                             </li>
                             <li>
                                 <span>Image Placeholder</span>
-                                <span class="saved">Saved</span>
+                                <span class="saved d-none">Saved</span>
                             </li>
                         </ul>
                     </div>
                     <div class="mb-3">
-                        <label for="formFile" class="form-label"
-                            >You can submit up to
-                            <span id="max-images" class="text-muted"
-                                >[loading...]</span
-                            >
-                            images</label
-                        >
-                        <input class="form-control" type="file" id="formFile" />
-
-                        <div class="row mb-3 mt-2">
-                            <label
-                                for="titleOfWork"
-                                class="col-md-1 col-form-label"
-                                >Title</label
-                            >
-                            <div class="col-md-11">
-                                <input
-                                    type="text"
-                                    name="titleOfWork"
-                                    id="titleOfWork"
-                                    class="form-control"
-                                />
-                            </div>
+                        <div class="banner">
+                            <label for="formFile" class="form-label"
+                                >You can submit up to
+                                <span id="max-entries" class="fw-bold text-warning">fetching...</span>
+                                images</label>
+                            <input class="form-control" type="file" id="formFile" />
                         </div>
-                        <div class="row mb-3 mt-2">
-                            <label
-                                for="widthOfWork"
-                                class="col-md-1 col-form-label"
-                            >
-                                Width (in)
-                            </label>
-                            <div class="col-md-2">
-                                <input
-                                    type="text"
-                                    name="widthOfWork"
-                                    id="widthOfWork"
-                                    class="form-control"
-                                />
-                            </div>
 
-                            <label
-                                for="heightOfWork"
-                                class="col-md-1 col-form-label"
-                            >
-                                Height (in)
-                            </label>
-                            <div class="col-md-2">
-                                <input
-                                    type="text"
-                                    name="heightOfWork"
-                                    id="heightOfWork"
-                                    class="form-control"
-                                />
+                        <div id="image-details" class="d-none">
+                            <div class="row mb-3 mt-2">
+                                <label
+                                    for="titleOfWork"
+                                    class="col-md-1 col-form-label"
+                                    >Title</label>
+                                <div class="col-md-11">
+                                    <input
+                                        type="text"
+                                        name="titleOfWork"
+                                        id="titleOfWork"
+                                        class="form-control"
+                                    />
+                                </div>
                             </div>
-
-                            <label
-                                for="mediumOfWork"
-                                class="col-md-1 col-form-label"
-                            >
-                                Medium
-                            </label>
-                            <div class="col-md-5">
-                                <input
-                                    type="text"
-                                    name="mediumOfWork"
-                                    id="mediumOfWork"
-                                    class="form-control"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label
-                                for="priceOfWork"
-                                class="col-md-1 col-form-label mt-2"
-                            >
-                                Price $
-                            </label>
-
-                            <div class="col-md-2 mt-2">
-                                <input
-                                    type="text"
-                                    name="priceOfWork"
-                                    id="priceOfWork"
-                                    class="form-control"
-                                />
-                            </div>
-                            <div class="col-auto mt-2">
-                                <button type="submit" class="btn btn-primary">
-                                    Submit Work
-                                </button>
-                            </div>
-                            <div class="col-auto col-form-label mt-2">
-                                <span class="label">Total Fee: </span>
-                                <span id="totalFee" class="text-muted"
-                                    >Calculating ...</span
+                            <div class="row mb-3 mt-2">
+                                <label
+                                    for="widthOfWork"
+                                    class="col-md-1 col-form-label"
                                 >
+                                    Width (in)
+                                </label>
+                                <div class="col-md-2">
+                                    <input
+                                        type="text"
+                                        name="widthOfWork"
+                                        id="widthOfWork"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <label
+                                    for="heightOfWork"
+                                    class="col-md-1 col-form-label"
+                                >
+                                    Height (in)
+                                </label>
+                                <div class="col-md-2">
+                                    <input
+                                        type="text"
+                                        name="heightOfWork"
+                                        id="heightOfWork"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <label
+                                    for="mediumOfWork"
+                                    class="col-md-1 col-form-label"
+                                >
+                                    Medium
+                                </label>
+                                <div class="col-md-5">
+                                    <input
+                                        type="text"
+                                        name="mediumOfWork"
+                                        id="mediumOfWork"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label
+                                    for="priceOfWork"
+                                    class="col-md-1 col-form-label mt-2"
+                                >
+                                    Price $
+                                </label>
+                                <div class="col-md-2 mt-2">
+                                    <input
+                                        type="text"
+                                        name="priceOfWork"
+                                        id="priceOfWork"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <div class="col-auto mt-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        Submit Work
+                                    </button>
+                                </div>
+                                <div class="col-auto col-form-label mt-2">
+                                    <span class="label">Total Fee: </span>
+                                    <span id="totalFee" class="text-muted"
+                                        >Calculating ...</span
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,9 @@ const route = getRoute()
 const cfe = {
     "closedate" : "",
     "id" : "",
-    "name" : ""
+    "name" : "",
+    "maxentries" : "",
+    "entryfee" : ""
 }
 const member = {
     "email" : "",
@@ -13,11 +15,11 @@ const member = {
     "type" : "",
     "uploadcount" : ""
 }
-// End Point version 9
-const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbw4pRaF9F7xIL9-SbgFsgU7LbD9alJzXA0zAk5Hw7huoAUezzFsMadrpz089l7NXIw/exec" +
+// End Point version 10
+const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbwncrJGgBMSMDNjmgKoucDXNXa6Y3BkXRKrWWEP8pR9gGBVmy_uMsZWgIJQRNeYLnfP/exec" +
     "?q="
 var test = true
-var uploads = []
+//var uploads = []
 var emailAddressOld = ""
 
 function displayExhibitName(name) {
@@ -43,6 +45,7 @@ function displayMember(member) {
             validMemberElement.classList.remove('d-none')  
             notActiveMemberElement.classList.add('d-none')
             notExhibitingMemberElement.classList.add('d-none')
+
             allowAccess()  
         } else {
             if (member.status !== "active") {
@@ -82,6 +85,7 @@ function displayUploads(uploads) {
     } else {
         uploadHistoryNotFound.classList.remove('d-none')
     }
+    updateMaxEntries()
 }
 
 function fetchingArtist(toggle) {
@@ -121,6 +125,13 @@ function uploadHistoryBlock(toggle) {
         uploadHistoryBlock.classList.add('d-none')
     }
 
+}
+
+function updateMaxEntries() {
+    const maxEntriesElement = document.getElementById('max-entries')
+    const maxEntries = cfe.maxentries - member.uploadcount
+
+    maxEntriesElement.innerText = maxEntries
 }
 
 function mode() {
@@ -173,6 +184,8 @@ function fetchOpenCalls() {
             cfe.closedate = resp[0]            
             cfe.id = resp[1]
             cfe.name = resp[2]
+            cfe.maxentries = parseInt(resp[3])
+            cfe.entryfee = parseInt(resp[4])
             displayExhibitName(cfe.name)
         })
         .catch()        
@@ -228,10 +241,12 @@ function fetchUploads(cfe, member) {
     fetch(url) 
     .then(resp => resp.json())
     .then(resp => {
-        uploads = [...resp]
         fetchingUploads(false)
-        displayUploads(uploads)
+        //uploads = [...resp]
+        member.uploads = [...resp]
         member.uploadcount = resp.length
+        displayUploads(member.uploads)
+
     })
 }
 
