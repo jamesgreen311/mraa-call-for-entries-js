@@ -219,6 +219,7 @@
                             <thead>
                                 <th>File Names</th>
                                 <th>Date Submitted</th>
+                                <th>Fee</th>
                             </thead>
                             <tbody>
 
@@ -237,21 +238,21 @@
                     </div>
 
                     <div id="upload-gallery" class="d-none">
-                        <h3 class="fs-6">Images Uploaded</h3>
-                        <ul class="gallery">
-                            <li>
+                        <h3 class="fs-6">Upload Gallery</h3>
+                        <ul id="gallery" class="gallery">
+                            <li class="d-none">
                                 <span>Image Placeholder</span>
                                 <span class="saved d-none">Saved</span>
                             </li>
-                            <li>
+                            <li class="d-none">
                                 <span>Image Placeholder</span>
                                 <span class="saved d-none">Saved</span>
                             </li>
-                            <li>
+                            <li class="d-none">
                                 <span>Image Placeholder</span>
                                 <span class="saved d-none">Saved</span>
                             </li>
-                            <li>
+                            <li class="d-none">
                                 <span>Image Placeholder</span>
                                 <span class="saved d-none">Saved</span>
                             </li>
@@ -266,24 +267,24 @@
                             <input class="form-control" type="file" id="formFile" />
                         </div>
 
-                        <div id="image-details" class="d-none">
+                        <div id="image-details">
                             <div class="row mb-3 mt-2">
                                 <label
-                                    for="titleOfWork"
+                                    for="worktitle"
                                     class="col-md-1 col-form-label"
                                     >Title</label>
                                 <div class="col-md-11">
                                     <input
                                         type="text"
-                                        name="titleOfWork"
-                                        id="titleOfWork"
+                                        name="worktitle"
+                                        id="worktitle"
                                         class="form-control"
                                     />
                                 </div>
                             </div>
                             <div class="row mb-3 mt-2">
                                 <label
-                                    for="widthOfWork"
+                                    for="width"
                                     class="col-md-1 col-form-label"
                                 >
                                     Width (in)
@@ -291,13 +292,13 @@
                                 <div class="col-md-2">
                                     <input
                                         type="text"
-                                        name="widthOfWork"
-                                        id="widthOfWork"
+                                        name="width"
+                                        id="width"
                                         class="form-control"
                                     />
                                 </div>
                                 <label
-                                    for="heightOfWork"
+                                    for="height"
                                     class="col-md-1 col-form-label"
                                 >
                                     Height (in)
@@ -305,13 +306,13 @@
                                 <div class="col-md-2">
                                     <input
                                         type="text"
-                                        name="heightOfWork"
-                                        id="heightOfWork"
+                                        name="height"
+                                        id="height"
                                         class="form-control"
                                     />
                                 </div>
                                 <label
-                                    for="mediumOfWork"
+                                    for="medium"
                                     class="col-md-1 col-form-label"
                                 >
                                     Medium
@@ -319,15 +320,15 @@
                                 <div class="col-md-5">
                                     <input
                                         type="text"
-                                        name="mediumOfWork"
-                                        id="mediumOfWork"
+                                        name="medium"
+                                        id="medium"
                                         class="form-control"
                                     />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label
-                                    for="priceOfWork"
+                                    for="price"
                                     class="col-md-1 col-form-label mt-2"
                                 >
                                     Price $
@@ -335,8 +336,8 @@
                                 <div class="col-md-2 mt-2">
                                     <input
                                         type="text"
-                                        name="priceOfWork"
-                                        id="priceOfWork"
+                                        name="price"
+                                        id="price"
                                         class="form-control"
                                     />
                                 </div>

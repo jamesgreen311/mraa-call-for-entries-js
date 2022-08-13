@@ -1,11 +1,11 @@
-
 const route = getRoute()
 const cfe = {
     "closedate" : "",
     "id" : "",
     "name" : "",
     "maxentries" : "",
-    "entryfee" : ""
+    "entryfee" : "",
+    "imagefolderid" : ""
 }
 const member = {
     "email" : "",
@@ -14,11 +14,17 @@ const member = {
     "phone" : "",
     "status" : "", 
     "type" : "",
-    "uploadcount" : ""
+    "uploadcount" : "",
+    "sessioncount" : 0
+}
+const appsettings = {
+    "maximagesize" : 3, // default, get actual from AppSettings Spreadsheet
+    "cfecontact" : ""
 }
 // End Point version 10
-const EP_CFEAPI = "https://script.google.com/macros/s/AKfycbwncrJGgBMSMDNjmgKoucDXNXa6Y3BkXRKrWWEP8pR9gGBVmy_uMsZWgIJQRNeYLnfP/exec" +
+const EP_CFEAPIGET = "https://script.google.com/macros/s/AKfycbwncrJGgBMSMDNjmgKoucDXNXa6Y3BkXRKrWWEP8pR9gGBVmy_uMsZWgIJQRNeYLnfP/exec" +
     "?q="
+const EP_CFEAPIPOST = "https://script.google.com/macros/s/AKfycbxHhOKR2Xj8w3zjGAGHQf22oWhzJg7Q4Mab94b_gftB0g5TTZnb0iCzWI4VijeMYx6I/exec"
 var test = true
 //var uploads = []
 var emailAddressOld = ""
@@ -77,10 +83,13 @@ function displayUploads(uploads) {
             let row = document.createElement("tr")
             let col1 = document.createElement("td")
             let col2 = document.createElement("td")
+            let col3 = document.createElement("td")
             col1.innerText = uploads[i][0]
-            col2.innerText = moment(uploads[i][1]).format("dddd, MMMM D YYYY, h:mma")
+            col2.innerText = uploads[i][1]
+            col3.innerText = `\$${cfe.entryfee}`
             row.appendChild(col1)
             row.appendChild(col2)
+            row.appendChild(col3)
             uhtBody.appendChild(row)
         }
         uploadHistoryFound.classList.remove('d-none')
@@ -133,6 +142,10 @@ function updateMaxEntries() {
     const maxEntriesElement = document.getElementById('max-entries')
     const maxEntries = cfe.maxentries - member.uploadcount
 
+    if (maxEntries<0) {
+        disableUploads()
+        maxEntries = 0
+    }
     maxEntriesElement.innerText = maxEntries
 }
 
@@ -168,6 +181,10 @@ function disallowAccess() {
     }
 }
 
+function disableForm(msg) {
+
+}
+
 function resetErrorMessages() {
     const notExhibitingMemberElement = document.getElementById("not-exhibiting-member")
     const notActiveMemberElement = document.getElementById("not-active-member")
@@ -184,7 +201,7 @@ function loadPageElements() {
 
 function fetchOpenCalls() {
     const pId = [route.id]
-    const url = EP_CFEAPI + "opencalls" + "&id=" + pId 
+    const url = EP_CFEAPIGET + "opencalls" + "&id=" + pId 
     if (cfe.id === route.id) {
         // skip fetch
         displayExhibitName(cfe.name)
@@ -198,6 +215,7 @@ function fetchOpenCalls() {
             cfe.name = resp[2]
             cfe.maxentries = parseInt(resp[3])
             cfe.entryfee = parseInt(resp[4])
+            cfe.imagefolderid = resp[5]
             displayExhibitName(cfe.name)
         })
         .catch()        
@@ -206,7 +224,7 @@ function fetchOpenCalls() {
 }
 
 function fetchMember(id) {
-    const url = EP_CFEAPI + "member" + "&id=" + id
+    const url = EP_CFEAPIGET + "member" + "&id=" + id
 
     resetErrorMessages()
 
@@ -248,7 +266,7 @@ function fetchUploads(cfe, member) {
         'event' : cfe.id,
         'key' : 'id'
     }
-    const url = EP_CFEAPI + "uploads" + "&id=" + JSON.stringify(p)
+    const url = EP_CFEAPIGET + "uploads" + "&id=" + JSON.stringify(p)
 
     fetch(url) 
     .then(resp => resp.json())
@@ -258,7 +276,7 @@ function fetchUploads(cfe, member) {
         member.uploads = [...resp]
         member.uploadcount = resp.length
         displayUploads(member.uploads)
-
+        calcTotalFee(member.uploadcount, cfe.entryfee)
     })
 }
 
@@ -303,10 +321,107 @@ function clearUploadHistory() {
     uhtBody.innerHTML = ""
 }
 
+function imageGalleryToggle(toggle){
+    const imageGallery = document.getElementById('upload-gallery')
+    if (toggle) {
+        imageGallery.classList.remove('d-none')
+    } else {
+        imageGallery.classList.add('d-none')
+    }
+}
+
+function uploadsRemaining(count) {
+    const maxEntries = document.getElementById('max-entries')
+    if (count>0) {
+        maxEntries = count
+    } else {
+        // disable additional uploads
+        maxEntries = 0
+        const msgHTML = "You have reached the max entries for this event. If you feel this is inaccurate please contact the event coordinator" // TODO - add cfe coordinator email link
+        disableForm(msg) // TODO - build function
+    }
+
+}
+
+// TODO - build function
+function resetFields(form) {
+
+}
+
+function calcTotalFee(count, fee) {
+    const totalFee = document.getElementById('totalFee')
+    totalFee.innerText = `\$${count*fee}`
+}
+
+function imageSaved(num=0) {
+    const galleryCollection = document.getElementById('gallery')
+    const galleryItems = galleryCollection.getElementsByTagName('li')
+    const imageSaved = galleryCollection.getElementsByClassName('saved')
+    const galleryContainer = galleryCollection.parentElement
+
+/*     console.log(galleryCollection)
+    console.log(galleryItems)
+    console.log(imageSaved)
+    console.log(galleryContainer) */
+    galleryItems[num].classList.remove('d-none')
+    galleryContainer.classList.remove('d-none')
+    imageSaved[num].classList.remove('d-none')
+}
+
+function addSubmission(e) {
+    e.preventDefault()
+    const formdata = new FormData(this)
+    const payload = [ 
+        ['eventid', cfe.id],
+        ['eventtitle', cfe.name],
+        ['firstname', member.firstname],
+        ['lastname', member.lastname],
+        ['email', member.email],
+        ['phone', member.phone],
+        ...formdata
+    ]
+    let _data = {}
+    for (const [key, value] of payload) {
+        _data[key] = value
+        console.log(`${key}: ${value} \n`)
+    }
+    _data.filename = `${_data.lastname}-${_data.firstname}-${_data.worktitle}-${_data.medium}-${_data.width}x${_data.height}-${_data.price}`
+    _data.fileid = "test" // Test Data 
+    _data.member = "YES"
+    _data.availability = ""
+    _data.hidden = ""
+    _data.fullname = member.firstname + " " + member.lastname
+    _data.timestamp = moment().format("MMMM Do YYYY, h:mm:ss a")
+    fetch(EP_CFEAPIPOST, {
+        method: "POST",
+        mode: "no-cors",
+        cache: 'no-cache',
+        credentials: 'omit',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(_data)
+    })
+    .then(res => res)
+    .then(showComplete())
+    .catch(err => console.log(err))
+}
+
+function showComplete() {
+    // increase upload count
+    member.uploadcount = member.uploadcount++
+    imageSaved(member.sessioncount)
+    member.sessioncount = member.sessioncount++
+    uploadsRemaining(cfe.maxentries - member.sessioncount)
+}
+
 document.addEventListener("DOMContentLoaded", loadPageElements)
+//document.addEventListener("DOMContentLoaded", imageSaved)
 //document.addEventListener("DOMContentLoaded", mode)
 document.getElementById("login-button").addEventListener("click", emailValidate)
 document.getElementById("artist-email").addEventListener("change", resetDisplay)
 document.getElementById("form-artist-info").addEventListener("submit", (event) => {
     event.preventDefault()
 })
+document.getElementById("form-upload-images").addEventListener("submit", addSubmission)
