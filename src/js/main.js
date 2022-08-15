@@ -271,41 +271,26 @@ function showThumbnail(e) {
     const imageContainer = galleryFirstEmpty.parentElement
     const submissionMessages = document.getElementById('submission-messages')
     imageGalleryToggle(true)
-/*     let thumbnail = document.getElementById('thumbnail');
-    let container = document.getElementById('thumbnail-container');
-    let message = document.getElementById('thumbnail-message');
-    let outerBox = document.getElementById('thumbnail-outer-box'); */
-    let maxFileSizeMsg = `Your file size is ${uploadImageSize}MB and it exceeds maximum allowed size of ${maxImageSize}MB.<br>Please select a smaller image.`
-  
-/*     outerBox.classList.remove('mraa-highlight');
-    message.style.display = "none"; */
+
+    const maxFileSizeMsg = `<p class="mt-2 mb-0">Your file size is <span class='text-danger'>** ${uploadImageSize} MB **</span> and it exceeds maximum allowed size of <span class="text-warning">${maxImageSize} MB</span>. Please select a smaller image.</p>`
   
     // check file size before showing image
     if (uploadImageSize > maxImageSize) {
-/*       message.innerHTML = maxFileSizeMsg
-      message.style.display = "block"
-      imageFile.value = "" */
-  
-      /*
-       test case: 
-          a valid image is selected.
-          user selects a new image without uploading previous image
-          new image exceeds max
-          old image needs to be removed
-       */
-/*       container.style.display = "none" */
-      e.stopImmediatePropagation()
-      //thumbnail.src = ""
-      return false
+        submissionMessages.innerHTML = maxFileSizeMsg
+        e.stopImmediatePropagation()
+        galleryFirstEmpty.innerHTML = ""
+
+        return false
   
     } else {
+        submissionMessages.innerHTML = ""
         galleryFirstEmpty.innerHTML = "<img class='crop' />"
         const thumbnail = galleryFirstEmpty.getElementsByTagName('img')[0]
         thumbnail.src = URL.createObjectURL(e.target.files[0]);
         imageContainer.classList.remove('d-none')
-        galleryFirstEmpty.classList.remove('empty')
-/*       container.style.display = "block"; */
-      return true
+        //galleryFirstEmpty.classList.remove('empty')
+
+        return true
     }
 }
 

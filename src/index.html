@@ -228,7 +228,7 @@
                     </div>
                 </div>
             </form>
-            <form id="form-upload-images">
+            <form action="#" id="form-upload-images" class="needs-validation" required>
                 <div id="upload-images" class="d-none member-access">
                     <div class="header">
                         <span class="material-symbols-outlined icon">
@@ -264,15 +264,10 @@
                                 >You can submit 
                                 <span id="max-entries" class="fw-bold text-warning">fetching...</span>
                                 images</label>
-                            <input class="form-control" type="file" id="form-file"/>
-                        </div>
-                        <div class="col-auto col-form-label mt-2 banner">
-                            <span class="label">Total Fee Due for This Event: </span>
-                            <span id="totalFee" class="text-warning"
-                                >Calculating ...</span
-                            >
+                            <input class="form-control" type="file" id="form-file" required/>
                             <span id="submission-messages"></span>
                         </div>
+
                         <div id="image-details">
                             <div class="row mb-3 mt-2">
                                 <label
@@ -285,6 +280,8 @@
                                         name="worktitle"
                                         id="worktitle"
                                         class="form-control"
+                                        placeholder="Required"
+                                        required
                                     />
                                 </div>
                             </div>
@@ -301,6 +298,8 @@
                                         name="width"
                                         id="width"
                                         class="form-control"
+                                        placeholder="Required"
+                                        required
                                     />
                                 </div>
                                 <label
@@ -315,6 +314,8 @@
                                         name="height"
                                         id="height"
                                         class="form-control"
+                                        placeholder="Required"
+                                        required
                                     />
                                 </div>
                                 <label
@@ -329,6 +330,8 @@
                                         name="medium"
                                         id="medium"
                                         class="form-control"
+                                        placeholder="Required"
+                                        required
                                     />
                                 </div>
                             </div>
@@ -345,6 +348,8 @@
                                         name="price"
                                         id="price"
                                         class="form-control"
+                                        placeholder="Required"
+                                        required
                                     />
                                 </div>
 
@@ -354,6 +359,17 @@
                                     </button>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-auto col-form-label mt-2 banner">
+                            <p>
+                                <span class="label">Total Fee Due for This Event: </span>
+                                <span id="totalFee" class="text-warning"
+                                    >Calculating ...</span
+                                >
+                                <br>
+                                This is the total for all submissions to date.
+                            </p>
                         </div>
                     </div>
                 </div>
