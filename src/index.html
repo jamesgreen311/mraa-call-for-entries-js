@@ -241,32 +241,38 @@
                         <h3 class="fs-6">Upload Gallery</h3>
                         <ul id="gallery" class="gallery">
                             <li class="d-none">
-                                <span>Image Placeholder</span>
                                 <span class="saved d-none">Saved</span>
+                                <span class="empty">Image Placeholder</span>
                             </li>
                             <li class="d-none">
-                                <span>Image Placeholder</span>
                                 <span class="saved d-none">Saved</span>
+                                <span class="empty">Image Placeholder</span>
                             </li>
                             <li class="d-none">
-                                <span>Image Placeholder</span>
                                 <span class="saved d-none">Saved</span>
+                                <span class="empty">Image Placeholder</span>
                             </li>
                             <li class="d-none">
-                                <span>Image Placeholder</span>
                                 <span class="saved d-none">Saved</span>
+                                <span class="empty">Image Placeholder</span>
                             </li>
                         </ul>
                     </div>
                     <div class="mb-3">
                         <div class="banner">
-                            <label for="formFile" class="form-label"
-                                >You can submit up to
+                            <label for="form-file" class="form-label"
+                                >You can submit 
                                 <span id="max-entries" class="fw-bold text-warning">fetching...</span>
                                 images</label>
-                            <input class="form-control" type="file" id="formFile" />
+                            <input class="form-control" type="file" id="form-file"/>
                         </div>
-
+                        <div class="col-auto col-form-label mt-2 banner">
+                            <span class="label">Total Fee Due for This Event: </span>
+                            <span id="totalFee" class="text-warning"
+                                >Calculating ...</span
+                            >
+                            <span id="submission-messages"></span>
+                        </div>
                         <div id="image-details">
                             <div class="row mb-3 mt-2">
                                 <label
@@ -341,16 +347,11 @@
                                         class="form-control"
                                     />
                                 </div>
+
                                 <div class="col-auto mt-2">
                                     <button type="submit" class="btn btn-primary">
                                         Submit Work
                                     </button>
-                                </div>
-                                <div class="col-auto col-form-label mt-2">
-                                    <span class="label">Total Fee: </span>
-                                    <span id="totalFee" class="text-muted"
-                                        >Calculating ...</span
-                                    >
                                 </div>
                             </div>
                         </div>

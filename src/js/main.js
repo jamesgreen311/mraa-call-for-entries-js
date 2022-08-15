@@ -21,14 +21,19 @@ const appsettings = {
     "maximagesize" : 3, // default, get actual from AppSettings Spreadsheet
     "cfecontact" : ""
 }
+
+// End Point Source - MRAA Call For Entries API
+// -- Script Id = 1idLgBabKWZRx6uNEK5v4Z9lO36OWewbTJwSHeSCwxZSbd8Q5U4MwPLfh
 // End Point version 10
-const EP_CFEAPIGET = "https://script.google.com/macros/s/AKfycbwncrJGgBMSMDNjmgKoucDXNXa6Y3BkXRKrWWEP8pR9gGBVmy_uMsZWgIJQRNeYLnfP/exec" +
+const EP_CFEAPIGET = "https://script.google.com/macros/s/AKfycbxHhOKR2Xj8w3zjGAGHQf22oWhzJg7Q4Mab94b_gftB0g5TTZnb0iCzWI4VijeMYx6I/exec" +
     "?q="
+
 const EP_CFEAPIPOST = "https://script.google.com/macros/s/AKfycbxHhOKR2Xj8w3zjGAGHQf22oWhzJg7Q4Mab94b_gftB0g5TTZnb0iCzWI4VijeMYx6I/exec"
 var test = true
 //var uploads = []
 var emailAddressOld = ""
 
+// View methods
 function displayExhibitName(name) {
     const ele = document.getElementById("exhibit-title")
     ele.innerText = name
@@ -149,16 +154,15 @@ function updateMaxEntries() {
     maxEntriesElement.innerText = maxEntries
 }
 
-function mode() {
-    const hidden = document.getElementsByClassName("d-none")
-    if (test) {
-        // show all hidden elements
-        let allhidden = hidden.length
-        for (i=allhidden-1; i>=0; i--) {
-            hidden[i].classList.remove("d-none")
-        }
+function imageSaved(num=0) {
+    const galleryCollection = document.getElementById('gallery')
+    const galleryItems = galleryCollection.getElementsByTagName('li')
+    const imageSaved = galleryCollection.getElementsByClassName('saved')
+    const galleryContainer = galleryCollection.parentElement
 
-    }
+    galleryItems[num].classList.remove('d-none')
+    galleryContainer.classList.remove('d-none')
+    imageSaved[num].classList.remove('d-none')
 }
 
 function allowAccess() {
@@ -185,6 +189,15 @@ function disableForm(msg) {
 
 }
 
+function imageGalleryToggle(toggle){
+    const imageGallery = document.getElementById('upload-gallery')
+    if (toggle) {
+        imageGallery.classList.remove('d-none')
+    } else {
+        imageGallery.classList.add('d-none')
+    }
+}
+
 function resetErrorMessages() {
     const notExhibitingMemberElement = document.getElementById("not-exhibiting-member")
     const notActiveMemberElement = document.getElementById("not-active-member")
@@ -195,10 +208,108 @@ function resetErrorMessages() {
     notExhibitingMemberElement.classList.add('d-none')
 }
 
-function loadPageElements() {
-    fetchOpenCalls()
+function resetDisplay() {
+    if (emailAddressOld!=="") { 
+        // turn off artist detail
+        artistDetailBlock(false)
+        // turn off upload history
+        uploadHistoryBlock(false)
+        clearUploadHistory()
+    }
+
+    emailAddressOld = document.getElementById("artist-email").value
 }
 
+// TODO - build function
+function resetFields(form) {
+
+}
+
+function clearUploadHistory() {
+    const uploadHistoryTable = document.getElementById("upload-history-table")
+    const uhtBody = uploadHistoryTable.getElementsByTagName("tbody")[0]
+    const uploadHistoryFound = document.getElementById("upload-history-found")
+    const uploadHistoryNotFound = document.getElementById("upload-history-notfound")
+
+    uploadHistoryFound.classList.add('d-none')
+    uploadHistoryNotFound.classList.add('d-none')
+    uhtBody.innerHTML = ""
+}
+
+function calcTotalFee(count, fee) {
+    const totalFee = document.getElementById('totalFee')
+    totalFee.innerText = `\$${count*fee}`
+}
+
+function showComplete() {
+    // increase upload count
+    member.uploadcount = member.uploadcount++
+    imageSaved(member.sessioncount)
+    member.sessioncount = member.sessioncount++
+    uploadsRemaining(cfe.maxentries - member.sessioncount)
+}
+
+function uploadsRemaining(count) {
+    const maxEntries = document.getElementById('max-entries')
+    if (count>0) {
+        maxEntries = count
+    } else {
+        // disable additional uploads
+        maxEntries = 0
+        const msgHTML = "You have reached the max entries for this event. If you feel this is inaccurate please contact the event coordinator" // TODO - add cfe coordinator email link
+        disableForm(msg) // TODO - build function
+    }
+
+}
+
+function showThumbnail(e) {
+    const imageFile = document.getElementById('form-file');
+    const maxImageSize = appsettings.maximagesize
+    const uploadImageSize = ( imageFile.files[0].size / (1024 * 1024) ).toFixed(1) // convert bytes to mb 
+    const imageGallery = document.getElementById('gallery')
+    const galleryFirstEmpty = imageGallery.getElementsByClassName('empty')[0]
+    const imageContainer = galleryFirstEmpty.parentElement
+    const submissionMessages = document.getElementById('submission-messages')
+    imageGalleryToggle(true)
+/*     let thumbnail = document.getElementById('thumbnail');
+    let container = document.getElementById('thumbnail-container');
+    let message = document.getElementById('thumbnail-message');
+    let outerBox = document.getElementById('thumbnail-outer-box'); */
+    let maxFileSizeMsg = `Your file size is ${uploadImageSize}MB and it exceeds maximum allowed size of ${maxImageSize}MB.<br>Please select a smaller image.`
+  
+/*     outerBox.classList.remove('mraa-highlight');
+    message.style.display = "none"; */
+  
+    // check file size before showing image
+    if (uploadImageSize > maxImageSize) {
+/*       message.innerHTML = maxFileSizeMsg
+      message.style.display = "block"
+      imageFile.value = "" */
+  
+      /*
+       test case: 
+          a valid image is selected.
+          user selects a new image without uploading previous image
+          new image exceeds max
+          old image needs to be removed
+       */
+/*       container.style.display = "none" */
+      e.stopImmediatePropagation()
+      //thumbnail.src = ""
+      return false
+  
+    } else {
+        galleryFirstEmpty.innerHTML = "<img class='crop' />"
+        const thumbnail = galleryFirstEmpty.getElementsByTagName('img')[0]
+        thumbnail.src = URL.createObjectURL(e.target.files[0]);
+        imageContainer.classList.remove('d-none')
+        galleryFirstEmpty.classList.remove('empty')
+/*       container.style.display = "block"; */
+      return true
+    }
+}
+
+// I/O
 function fetchOpenCalls() {
     const pId = [route.id]
     const url = EP_CFEAPIGET + "opencalls" + "&id=" + pId 
@@ -280,94 +391,6 @@ function fetchUploads(cfe, member) {
     })
 }
 
-function isMember(member, status, type) {
-    return (member.status===status && type.includes(member.type))
-}
-
-function emailValidate() { 
-    const emailAddress = document.getElementById("artist-email").value
-    const form = document.getElementById("form-artist-info")
-
-    if (form.checkValidity()) {
-        // fetch member
-        fetchingArtist(true)
-        fetchMember(emailAddress)
-
-    } else {
-        // error handling by Bootstrap
-    }
-}
-
-function resetDisplay() {
-    if (emailAddressOld!=="") { 
-        // turn off artist detail
-        artistDetailBlock(false)
-        // turn off upload history
-        uploadHistoryBlock(false)
-        clearUploadHistory()
-    }
-
-    emailAddressOld = document.getElementById("artist-email").value
-}
-
-function clearUploadHistory() {
-    const uploadHistoryTable = document.getElementById("upload-history-table")
-    const uhtBody = uploadHistoryTable.getElementsByTagName("tbody")[0]
-    const uploadHistoryFound = document.getElementById("upload-history-found")
-    const uploadHistoryNotFound = document.getElementById("upload-history-notfound")
-
-    uploadHistoryFound.classList.add('d-none')
-    uploadHistoryNotFound.classList.add('d-none')
-    uhtBody.innerHTML = ""
-}
-
-function imageGalleryToggle(toggle){
-    const imageGallery = document.getElementById('upload-gallery')
-    if (toggle) {
-        imageGallery.classList.remove('d-none')
-    } else {
-        imageGallery.classList.add('d-none')
-    }
-}
-
-function uploadsRemaining(count) {
-    const maxEntries = document.getElementById('max-entries')
-    if (count>0) {
-        maxEntries = count
-    } else {
-        // disable additional uploads
-        maxEntries = 0
-        const msgHTML = "You have reached the max entries for this event. If you feel this is inaccurate please contact the event coordinator" // TODO - add cfe coordinator email link
-        disableForm(msg) // TODO - build function
-    }
-
-}
-
-// TODO - build function
-function resetFields(form) {
-
-}
-
-function calcTotalFee(count, fee) {
-    const totalFee = document.getElementById('totalFee')
-    totalFee.innerText = `\$${count*fee}`
-}
-
-function imageSaved(num=0) {
-    const galleryCollection = document.getElementById('gallery')
-    const galleryItems = galleryCollection.getElementsByTagName('li')
-    const imageSaved = galleryCollection.getElementsByClassName('saved')
-    const galleryContainer = galleryCollection.parentElement
-
-/*     console.log(galleryCollection)
-    console.log(galleryItems)
-    console.log(imageSaved)
-    console.log(galleryContainer) */
-    galleryItems[num].classList.remove('d-none')
-    galleryContainer.classList.remove('d-none')
-    imageSaved[num].classList.remove('d-none')
-}
-
 function addSubmission(e) {
     e.preventDefault()
     const formdata = new FormData(this)
@@ -408,12 +431,38 @@ function addSubmission(e) {
     .catch(err => console.log(err))
 }
 
-function showComplete() {
-    // increase upload count
-    member.uploadcount = member.uploadcount++
-    imageSaved(member.sessioncount)
-    member.sessioncount = member.sessioncount++
-    uploadsRemaining(cfe.maxentries - member.sessioncount)
+function isMember(member, status, type) {
+    return (member.status===status && type.includes(member.type))
+}
+
+function emailValidate() { 
+    const emailAddress = document.getElementById("artist-email").value
+    const form = document.getElementById("form-artist-info")
+
+    if (form.checkValidity()) {
+        // fetch member
+        fetchingArtist(true)
+        fetchMember(emailAddress)
+
+    } else {
+        // error handling by Bootstrap
+    }
+}
+
+function mode() {
+    const hidden = document.getElementsByClassName("d-none")
+    if (test) {
+        // show all hidden elements
+        let allhidden = hidden.length
+        for (i=allhidden-1; i>=0; i--) {
+            hidden[i].classList.remove("d-none")
+        }
+
+    }
+}
+
+function loadPageElements() {
+    fetchOpenCalls()
 }
 
 document.addEventListener("DOMContentLoaded", loadPageElements)
@@ -425,3 +474,4 @@ document.getElementById("form-artist-info").addEventListener("submit", (event) =
     event.preventDefault()
 })
 document.getElementById("form-upload-images").addEventListener("submit", addSubmission)
+document.getElementById("form-file").addEventListener("change", showThumbnail)
